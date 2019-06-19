@@ -28,6 +28,10 @@
             <th>No</th>
             <th>Name</th>
             <th>Details</th>
+            <th>Price</th>
+            <th>Count</th>
+            <th>Photo</th>
+            <th>Category ID</th>
             <th width="280px">Action</th>
         </tr>
         @foreach ($products as $product)
@@ -35,20 +39,21 @@
                 <td>{{ ++$i }}</td>
                 <td>{{ $product->name }}</td>
                 <td>{{ $product->detail }}</td>
+                <td>{{ $product->price }}</td>
+                <td>{{ $product->count }}</td>
+                <td>{{ $product->photo }}</td>
+                <td>{{ $product->category_id }}</td>
                 <td>
-                    <form action="{{ route('products.destroy',$product->id) }}" method="POST">
+                    {!! Form::open(['method'=>'DELETE','route' => ['products.destroy',$product->id]]) !!}
                         <a class="btn btn-info" href="{{ route('products.show',$product->id) }}">Show</a>
                         @can('product-edit')
                             <a class="btn btn-primary" href="{{ route('products.edit',$product->id) }}">Edit</a>
                         @endcan
 
-
-                        @csrf
-                        @method('DELETE')
                         @can('product-delete')
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                        {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
                         @endcan
-                    </form>
+                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach

@@ -25,31 +25,60 @@
         </div>
     @endif
 
-
-    <form action="{{ route('products.store') }}" method="POST">
-        @csrf
-
+    {!! Form::open(array('route' => 'products.store','method'=>'POST','files' =>'true')) !!}
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Name:</strong>
-                    <input type="text" name="name" class="form-control" placeholder="Name">
+                    {{--<input type="text" name="name" class="form-control" placeholder="Name">--}}
+                    {!! Form::text('name', null, array('placeholder' => 'Name','class' => 'form-control')) !!}
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Detail:</strong>
-                    <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail"></textarea>
+                    {{--<textarea class="form-control" style="height:150px" name="detail" placeholder="Detail"></textarea>--}}
+                    {!! Form::text('detail', null, array('placeholder' => 'Detail','class' => 'form-control')) !!}
                 </div>
             </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Price:</strong>
+                    {{--<input type="text" class="form-control" name="price" placeholder="Price">--}}
+                    {!! Form::text('price', null, array('placeholder' => 'Price','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Count:</strong>
+                    {{--<input type="text" class="form-control"  name="count" placeholder="Count">--}}
+                    {!! Form::text('count', null, array('placeholder' => 'Count','class' => 'form-control')) !!}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Photo:</strong>
+                    {{--<input type="text" class="form-control" name="photo" placeholder="Photo">--}}
+                    {!! Form::file('photo')!!}
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Category ID:</strong>
+                    {{--<input type="text" class="form-control" name="category_id" placeholder="Category ID">--}}
+                    {!! Form::text('category_id', null, array('placeholder' => 'Category ID','class' => 'form-control')) !!}
+                </div>
+            </div>
+
+
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
 
-
-    </form>
+    {!! Form::close() !!}
+    {{--</form>--}}
 
 
 @endsection

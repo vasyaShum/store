@@ -11,6 +11,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -19,7 +20,7 @@
     <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                {{ config('app.name', 'Laravel') }}
+                {{ config('app.name', 'Store') }}
             </a>
             {{--<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">--}}
                 {{--<span class="navbar-toggler-icon"></span>--}}
@@ -34,13 +35,22 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
+                    <li>
+                        <a class="nav-link" href="{{route('cart.shoppingCart')}}">
+                            <i class="material-icons" aria-hidden="true" style="font-size: 20px">shopping_cart</i>Кошик
+                            <span class="badge">{{Session::has('cart') ? Session::get('cart')->totalQty : ''}}</span>
+                        </a>
+                    </li>
                     @guest
                         <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
                         <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
                     @else
+                        @if(Auth::user()->hasPermissionTo('role-create'))
                         <li><a class="nav-link" href="{{ route('users.index') }}">Manage Users</a></li>
                         <li><a class="nav-link" href="{{ route('roles.index') }}">Manage Role</a></li>
                         <li><a class="nav-link" href="{{ route('products.index') }}">Manage Product</a></li>
+                        @endif
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }} <span class="caret"></span>
@@ -67,9 +77,18 @@
     </nav>
 
 
+
+
     <main class="py-4">
         <div class="container">
-            @yield('content')
+            <div class="row">
+                <div class="col-md-2">
+                    @widget('CategoryWidgets')
+                </div>
+                <div class="col-md-10">
+                    @yield('content')
+                </div>
+            </div>
         </div>
     </main>
 </div>

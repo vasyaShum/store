@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+//use Illuminate\Support\Facades\Hash;
 
 
 class ProductController extends Controller
@@ -17,7 +19,7 @@ class ProductController extends Controller
      */
     function __construct()
     {
-        $this->middleware('permission:product-list');
+//        $this->middleware('permission:product-list');
         $this->middleware('permission:product-create', ['only' => ['create','store']]);
         $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:product-delete', ['only' => ['destroy']]);
@@ -33,6 +35,8 @@ class ProductController extends Controller
         return view('products.index',compact('products'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
+
+
 
 
     /**
@@ -57,10 +61,24 @@ class ProductController extends Controller
         request()->validate([
             'name' => 'required',
             'detail' => 'required',
+            'price' => 'required',
+            'count' => 'required',
+            'photo' => 'required | mimes:jpeg,jpg,png',
+            'category_id' => 'required'
         ]);
 
 
-        Product::create($request->all());
+        $path = '../public/img/';
+        $photo_src = $_FILES['photo']['name'];
+        copy($_FILES['photo']['tmp_name'], $path . $_FILES['photo']['name']);
+
+        Product::create(['name' => $request->name,
+            'detail' => $request->detail,
+            'price' => $request->price,
+            'count' => $request->count,
+            'photo' => $photo_src,
+            'category_id' => $request->category_id
+        ]);
 
 
         return redirect()->route('products.index')
@@ -99,15 +117,21 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        request()->validate([
+        $this->validate($request,[
             'name' => 'required',
             'detail' => 'required',
+            'price' => 'required',
+            'count' => 'required',
+            'photo' => 'required',
+            'category_id' => 'required'
         ]);
 
 
-        $product->update($request->all());
+        $input = $request->all();
+        $product = Product::find($id);
+        $product->update($input);
 
 
         return redirect()->route('products.index')
@@ -121,11 +145,9 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        $product->delete();
-
-
+        DB::table("products")->where('id',$id)->delete();
         return redirect()->route('products.index')
             ->with('success','Product deleted successfully');
     }

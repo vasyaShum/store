@@ -6,12 +6,13 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
+        "arrilot/laravel-widgets": "^3.13",
         "fideloper/proxy": "~3.3",
+        "illuminate/html": "5. *",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "illuminate/html": "5. *",
-        "spatie/laravel-permission": "^2.37",
-        "laravelcollective/html": "^5.2"
+        "laravelcollective/html": "^5.2",
+        "spatie/laravel-permission": "^2.37"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
