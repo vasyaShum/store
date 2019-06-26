@@ -23,12 +23,10 @@ class CreateProductsTable extends Migration
             $table->integer('count');
             $table->string('photo');
             $table->integer('category_id')->unsigned();
-            $table->timestamps();
 
-//            $table->foreign('category_id')
-//                ->references('id')
-//                ->on('categories')
-//                ->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories');
+
+            $table->timestamps();
         });
     }
 

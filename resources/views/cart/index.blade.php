@@ -14,9 +14,13 @@ Shoping Cart
                 <ul class="list-group">
                     @foreach($products as $product)
                         <li class="list-group-item">
+                            <a href="{{route('cart.remove',['id' => $product['item']['id']])}}" class="close" style="margin-left: 10px" aria-label="Close">
+                                &times;
+                            </a>
                             <span class="badge">{{ $product['qty'] }}</span>
                             <strong>{{ $product['item']['name'] }}</strong>
                             <span class="label label-success">{{ $product['price'] }}</span>
+
                         </li>
                     @endforeach
                 </ul>

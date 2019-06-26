@@ -4,9 +4,9 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-8 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
+                <div class="panel-heading">Привіт, {{ Auth::user()->name }}</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -15,7 +15,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    Ви увійшли в <a href="{{route('profile')}}">особистий кабінет</a>!
                 </div>
             </div>
         </div>

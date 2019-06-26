@@ -32,13 +32,13 @@
             <th>Count</th>
             <th>Photo</th>
             <th>Category ID</th>
-            <th width="280px">Action</th>
+            <th width="210px">Action</th>
         </tr>
         @foreach ($products as $product)
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ $product->name }}</td>
-                <td>{{ $product->detail }}</td>
+                <td>{!! $product->detail !!}</td>
                 <td>{{ $product->price }}</td>
                 <td>{{ $product->count }}</td>
                 <td>{{ $product->photo }}</td>

@@ -25,15 +25,19 @@
         <tr>
             <th>No</th>
             <th>Name</th>
+            <th>Last name</th>
             <th>Email</th>
+            <th>Phone</th>
             <th>Roles</th>
-            <th width="280px">Action</th>
+            <th width="210px">Action</th>
         </tr>
         @foreach ($data as $key => $user)
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ $user->name }}</td>
+                <td>{{ $user->last_name }}</td>
                 <td>{{ $user->email }}</td>
+                <td>{{ $user->phone }}</td>
                 <td>
                     @if(!empty($user->getRoleNames()))
                         @foreach($user->getRoleNames() as $v)

@@ -8,13 +8,18 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
         <style>
             html, body {
-                background-color: #fff;
-                color: #636b6f;
+                background: url('../img/background2.jpg');
+                color: white;
                 font-family: 'Raleway', sans-serif;
                 font-weight: 100;
                 height: 100vh;
@@ -50,7 +55,7 @@
             }
 
             .links > a {
-                color: #636b6f;
+                color: white;
                 padding: 0 25px;
                 font-size: 12px;
                 font-weight: 600;
@@ -65,6 +70,7 @@
         </style>
     </head>
     <body>
+
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
@@ -81,16 +87,17 @@
                 <div class="title m-b-md">
                     Store
                 </div>
-                <div class="">{{__('lang.msg')}}</div>
+                {{--<div class="">{{__('lang.msg')}}</div>--}}
 
                 <div class="links">
                     <a href="{{ url('/home') }}">Home</a>
                     <a href="{{route('category.index')}}">Products</a>
                     <a href="">Contact</a>
-                    {{--<a href="">Forge</a>--}}
-                    {{--<a href="">GitHub</a>--}}
                 </div>
             </div>
         </div>
+    <footer style=" padding: 25px; color: lightgray; padding-top: 400px">
+        @widget('FooterWidgets')
+    </footer>
     </body>
 </html>

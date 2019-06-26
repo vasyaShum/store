@@ -8,9 +8,10 @@ use App\Cart;
 use App\Order;
 use App\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use Illuminate\Support\Facades\DB;
 use Session;
+
 
 //use Illuminate\Support\Facades\Hash;
 
@@ -26,7 +27,7 @@ class CartController extends Controller
 
         $request->session()->put('cart',$cart);
 //        dd($request->session()->get('cart'));
-        return redirect()->route('category.index');
+        return redirect()->back();
     }
 
     public function getCart() {
@@ -58,10 +59,12 @@ class CartController extends Controller
 
             $order = new Order();
             $order->cart = serialize($cart);
+            $order->user_id = Auth::check() ? Auth::user()->id : '0';
             $order->address = $request->input('address');
             $order->email = $request->input('email');
-            $order->name = $request->input('name');
+            $order->name = $request->input('name').' '.$request->input('last_name');
             $order->phone = $request->input('phone');
+            $order->status = 'Замовлення прийнято';
 
             $order->save();
 
@@ -70,6 +73,22 @@ class CartController extends Controller
         }
 
         Session::forget('cart');
-        return redirect()->route('category.index')->with('success', 'Успішно придбано товари');
+        return redirect()->route('category.index')->with('success', 'Замовлення виконано успішно');
+    }
+
+    public function getRemoveItem($id) {
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->removeItem($id);
+
+        if (count($cart->items) > 0) {
+            Session::put('cart',$cart);
+        } else {
+            Session::forget('cart');
+        }
+
+
+        return redirect()->route('cart.shoppingCart');
+
     }
 }

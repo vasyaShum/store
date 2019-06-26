@@ -41,7 +41,7 @@
                 <div class="form-group">
                     <strong>Detail:</strong>
                     {{--<textarea class="form-control" style="height:150px" name="detail" placeholder="Detail">{{ $product->detail }}</textarea>--}}
-                    {!! Form::text('detail', null, array( 'placeholder' => 'Name','class' => 'form-control')) !!}
+                    {!! Form::textarea('detail', null, array( 'placeholder' => 'Name','class' => 'form-control textareas')) !!}
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -65,7 +65,9 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Category ID:</strong>
-                    {!! Form::text('category_id', null, array( 'placeholder' => 'Category ID','class' => 'form-control')) !!}
+{{--                    {!! Form::text('category_id', null, array( 'placeholder' => 'Category ID','class' => 'form-control')) !!}--}}
+                        {!! Form::select('categories[]', $categories,[], array('class' => 'form-control','name'=> 'category_id' , 'multiple')) !!}
+
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">

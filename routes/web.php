@@ -19,6 +19,11 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/profile', [
+    'uses' => 'HomeController@getProfile',
+    'as' => 'profile'
+]);
+
 Route::get('/add-to-cart/{id}', [
     'uses' => 'CartController@getAddToCart',
     'as' => 'cart.addToCart'
@@ -39,14 +44,39 @@ Route::post('/checkout', [
     'as' => 'checkout'
 ]);
 
+Route::get('/remove/{id}', [
+    'uses' => 'CartController@getRemoveItem',
+    'as' => 'cart.remove'
+]);
+
 Route::group(['middleware' => ['auth']], function() {
     Route::resource('roles','RoleController');
     Route::resource('users','UserController');
-
+    Route::resource('products','ProductController');
+    Route::resource('order','OrderController');
+    Route::get('/set-status/{id}/{status}', [
+        'uses' => 'OrderController@setStatus',
+        'as' => 'order.setStatus'
+    ]);
 
 });
 Route::resource('category','CategoryController');
-Route::resource('products','ProductController');
+
+Route::get('/product/{id}', [
+    'uses' => 'CategoryController@productShow',
+    'as' => 'products.show'
+]);
+
+Route::post('/comment-add/{id}', [
+    'uses' => 'CommentController@addComment',
+    'as' => 'comment.add'
+]);
+
+Route::get('/comment-delete/{comment_id}/{product_id}', [
+    'uses' => 'CommentController@deleteComment',
+    'as' => 'comment.delete'
+]);
+
 
 Route::get('/{lang}', function ($lang){
     App::setlocale($lang);

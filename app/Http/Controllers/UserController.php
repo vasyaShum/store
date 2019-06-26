@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission:product-list');
+        $this->middleware('permission:product-create', ['only' => ['create','store']]);
+        $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -49,7 +58,9 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'last_name' => 'required',
             'email' => 'required|email|unique:users,email',
+            'phone' => 'required',
             'password' => 'required|same:confirm-password',
             'roles' => 'required'
         ]);
@@ -109,7 +120,9 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'last_name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
+            'phone' => 'required',
             'password' => 'same:confirm-password',
             'roles' => 'required'
         ]);

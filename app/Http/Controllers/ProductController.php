@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Category;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,7 @@ class ProductController extends Controller
      */
     function __construct()
     {
-//        $this->middleware('permission:product-list');
+        $this->middleware('permission:product-list');
         $this->middleware('permission:product-create', ['only' => ['create','store']]);
         $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:product-delete', ['only' => ['destroy']]);
@@ -46,7 +47,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $categories = Category::pluck('name')->all();
+        return view('products.create',compact('categories'));
     }
 
 
@@ -77,7 +79,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'count' => $request->count,
             'photo' => $photo_src,
-            'category_id' => $request->category_id
+            'category_id' => $request->category_id + 1
         ]);
 
 
@@ -106,7 +108,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit',compact('product'));
+        $categories = Category::pluck('name')->all();
+        return view('products.edit',compact('product','categories'));
     }
 
 
@@ -119,6 +122,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request['category_id'] += 1;
         $this->validate($request,[
             'name' => 'required',
             'detail' => 'required',
@@ -148,6 +152,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         DB::table("products")->where('id',$id)->delete();
+        DB::table("comments")->where('product_id',$id)->delete();
         return redirect()->route('products.index')
             ->with('success','Product deleted successfully');
     }
