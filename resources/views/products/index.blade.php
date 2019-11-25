@@ -3,9 +3,10 @@
 
 @section('content')
     <div class="row">
+        @widget('AdminMenuWidgets')
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Products</h2>
+                <h2>Керування продуктами</h2>
             </div>
             <div class="pull-right">
                 @can('product-create')
@@ -41,7 +42,7 @@
                 <td>{!! $product->detail !!}</td>
                 <td>{{ $product->price }}</td>
                 <td>{{ $product->count }}</td>
-                <td>{{ $product->photo }}</td>
+                <td><a href="img/{{$product->photo}} ">{{ $product->photo }}</a></td>
                 <td>{{ $product->category_id }}</td>
                 <td>
                     {!! Form::open(['method'=>'DELETE','route' => ['products.destroy',$product->id]]) !!}

@@ -3,9 +3,10 @@
 
 @section('content')
     <div class="row">
+        @widget('AdminMenuWidgets')
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Role Management</h2>
+                <h2>Керування ролями</h2>
             </div>
             <div class="pull-right">
                 @can('role-create')

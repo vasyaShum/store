@@ -11,6 +11,7 @@ Shoping Cart
     @if(Session::has('cart'))
         <div class="row">
             <div class="col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2">
+                <div class="h2 my-5">Мій кошик</div>
                 <ul class="list-group">
                     @foreach($products as $product)
                         <li class="list-group-item">
@@ -40,7 +41,8 @@ Shoping Cart
     @else
         <div class="row">
             <div class="col-sm-8 col-md-8 col-md-offset-2 col-sm-offset-2">
-                    <p class="list-group-item">Ваш кошик пустий.</p>
+                <div class="h2 my-5">Мій кошик</div>
+                <p class="list-group-item">Ваш кошик пустий.</p>
             </div>
         </div>
     @endif

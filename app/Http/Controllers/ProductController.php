@@ -123,6 +123,31 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $request['category_id'] += 1;
+
+        if ($_FILES['update_photo']['name']) {
+//          update new photo
+            $this->validate($request, ['update_photo' => 'required | mimes:jpeg,jpg,png']);
+            $path = '../public/img/';
+
+//          copy filename old photo
+
+            $old_photo = $path . $request['photo'];
+//          check if new file has unique name
+            if (file_exists($path . $_FILES['update_photo']['name'])) {
+                $i = 1;
+
+                do {
+                    $ext = pathinfo($_FILES['update_photo']['name'], PATHINFO_EXTENSION);
+                    $file = pathinfo($_FILES['update_photo']['name'], PATHINFO_FILENAME);
+                    $temp = $file . "($i)" . '.' . $ext;
+                    $i++;
+                } while (file_exists($path . $temp));
+                $_FILES['update_photo']['name'] = $temp;
+            }
+
+            copy($_FILES['update_photo']['tmp_name'], $path . $_FILES['update_photo']['name']);
+            $request['photo'] = $_FILES['update_photo']['name'];
+        }
         $this->validate($request,[
             'name' => 'required',
             'detail' => 'required',
@@ -137,6 +162,10 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->update($input);
 
+//      delete old_photo
+        if (isset($old_photo))
+            if (file_exists($old_photo))
+                unlink($old_photo);
 
         return redirect()->route('products.index')
             ->with('success','Product updated successfully');
@@ -151,8 +180,16 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        $path = '../public/img/';
+        $file = DB::table('products')->where('id',$id)->first();
+        $image = $path . $file->photo;
+
+        if (file_exists($image))
+            unlink($image);
+
         DB::table("products")->where('id',$id)->delete();
         DB::table("comments")->where('product_id',$id)->delete();
+
         return redirect()->route('products.index')
             ->with('success','Product deleted successfully');
     }

@@ -27,7 +27,7 @@
 
 
     {{--{!! Form::open(array('route' => 'products.update','method'=>'POST')) !!}--}}
-    {!! Form::model($product,['route' => ['products.update',$product->id],'method'=>'PATCH']) !!}
+    {!! Form::model($product,['route' => ['products.update',$product->id],'method'=>'PATCH', 'files' =>'true']) !!}
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -58,15 +58,19 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Photo:</strong>
-                    {!! Form::text('photo', null, array( 'placeholder' => 'Photo','class' => 'form-control')) !!}
+                    <strong>Photo:</strong><br>
+                    <a href="img/{{$product->photo}} ">{{ $product->photo }}</a><br><br>
+                    Змінити зображення
+                    {!! Form::text('photo', null, array('class' => 'hidden')) !!}
+                    {!! Form::file('update_photo') !!}
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Category ID:</strong>
+                    <strong>Category:</strong>
 {{--                    {!! Form::text('category_id', null, array( 'placeholder' => 'Category ID','class' => 'form-control')) !!}--}}
-                        {!! Form::select('categories[]', $categories,[], array('class' => 'form-control','name'=> 'category_id' , 'multiple')) !!}
+{{--                    take from chose selector($product['category_id']) -1--}}
+                        {!! Form::select('categories[]', $categories, $product['category_id'] - 1, array('class' => 'form-control','name'=> 'category_id' , 'multiple')) !!}
 
                 </div>
             </div>

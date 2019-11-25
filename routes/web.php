@@ -19,9 +19,18 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/my-orders', [
+    'uses' => 'HomeController@getOrders',
+    'as' => 'orders'
+]);
 Route::get('/profile', [
     'uses' => 'HomeController@getProfile',
     'as' => 'profile'
+]);
+
+Route::post('/edit-profile', [
+    'uses' => 'HomeController@editProfile',
+    'as' => 'editProfile'
 ]);
 
 Route::get('/add-to-cart/{id}', [
