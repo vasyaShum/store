@@ -33,6 +33,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::latest()->paginate(5);
+        foreach ($products as $product){
+            $product->detail = unserialize($product->detail);
+        }
         return view('products.index',compact('products'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -62,7 +65,8 @@ class ProductController extends Controller
     {
         request()->validate([
             'name' => 'required',
-            'detail' => 'required',
+            'key' => 'required',
+            'value' => 'required',
             'price' => 'required',
             'count' => 'required',
             'photo' => 'required | mimes:jpeg,jpg,png',
@@ -70,12 +74,20 @@ class ProductController extends Controller
         ]);
 
 
+        $detail = [];
+        for ($i = 0;$i < count($request->key);$i++) {
+            $k = $request->key[$i];
+            $v = $request->value[$i];
+            $detail[$k] = $v;
+        }
+        $detail = serialize($detail);
+
         $path = '../public/img/';
         $photo_src = $_FILES['photo']['name'];
         copy($_FILES['photo']['tmp_name'], $path . $_FILES['photo']['name']);
 
         Product::create(['name' => $request->name,
-            'detail' => $request->detail,
+            'detail' => $detail,
             'price' => $request->price,
             'count' => $request->count,
             'photo' => $photo_src,
@@ -109,6 +121,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $categories = Category::pluck('name')->all();
+        $product->detail = unserialize($product->detail);
         return view('products.edit',compact('product','categories'));
     }
 
@@ -150,13 +163,22 @@ class ProductController extends Controller
         }
         $this->validate($request,[
             'name' => 'required',
-            'detail' => 'required',
+            'key' => 'required',
+            'value' => 'required',
             'price' => 'required',
             'count' => 'required',
             'photo' => 'required',
             'category_id' => 'required'
         ]);
 
+        $detail = [];
+        for ($i = 0;$i < count($request->key);$i++) {
+            $k = $request->key[$i];
+            $v = $request->value[$i];
+            $detail[$k] = $v;
+        }
+        $detail = serialize($detail);
+        $request['detail'] = $detail;
 
         $input = $request->all();
         $product = Product::find($id);

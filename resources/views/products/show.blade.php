@@ -2,7 +2,7 @@
 
 
 @section('content')
-    <div class="row">
+    <div class="row d-lg-none">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
                 <h2>{{$product->name }}</h2><br>
@@ -11,15 +11,18 @@
     </div>
 
 
-<div class="row">
-    <div class="col-lg-6">
-        <img src="../img/{{$product->photo}}" class="img-fluid" alt="{{$product->name}}">
-    </div>
-    <div class="col-lg-6 info h4">
-        <div class="form-group">
-        <strong>Ціна:</strong>
-        <h1>{{ $product->price }} грн.</h1>
-        </div>
+        <div class="row pt-lg-5">
+            <div class="col-lg-6">
+                <img src="../img/{{$product->photo}}" class="img-fluid" alt="{{$product->name}}">
+            </div>
+            <div class="col-lg-6 info h4">
+                <div class="d-none d-lg-block">
+                    <h2 class="m-0">{{$product->name }}</h2><br>
+                </div>
+                <div class="form-group">
+                    <strong>Ціна:</strong>
+                    <h1>{{ $product->price }} грн.</h1>
+                </div>
         @if ($product->count <= 0)
         <div class="form-group">
             <span class="text-danger">Немає в наявності</span>
@@ -33,12 +36,18 @@
 {{--        <div class="form-group">--}}
 {{--            <span class="badge badge-pill"><div class="h6 font-weight-bold">{{ $product->count }} шт.</div></span>--}}
 {{--        </div>--}}
-        <div class="form-group">
-            {{--<strong>Опис:</strong>--}}
-            <div style="padding-bottom: 10px; padding-top: 20px">
-                {!! $product->detail !!}
+
+    </div>
+    <div class="col-lg-12">
+            <div class="details py-3">
+                <h2>Характеристика</h2>
+                <hr>
+                @foreach($product->detail as $key => $value)
+                    <div class="detail row py-3">
+                        <b class="col-5">{{$key}}</b><span class="col-7">{{$value}}</span>
+                    </div>
+                @endforeach
             </div>
-        </div>
     </div>
 </div>
 

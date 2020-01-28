@@ -39,7 +39,13 @@
             <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ $product->name }}</td>
-                <td>{!! $product->detail !!}</td>
+                <td>
+                    @foreach($product->detail as $key => $value)
+                        <div class="detail">
+                            <b>{{$key}}: </b><span>{{$value}}</span>
+                        </div>
+                    @endforeach
+                </td>
                 <td>{{ $product->price }}</td>
                 <td>{{ $product->count }}</td>
                 <td><a href="img/{{$product->photo}} ">{{ $product->photo }}</a></td>

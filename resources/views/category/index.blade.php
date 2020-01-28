@@ -23,7 +23,7 @@
                     <div class="col-12">
                         <a href="{{ route('products.show',$product->id) }}"><img class="img-fluid" src="../img/{{$product->photo}}" alt="{{$product->name}}"></a>
                     </div>
-                    <div class="col-12">
+                    <div class="col-12 pt-2">
                         <a href="{{ route('products.show',$product->id) }}">
                             @if (strlen($product->name) > 55)
                                 {{substr($product->name,0,55) . " ..."}}

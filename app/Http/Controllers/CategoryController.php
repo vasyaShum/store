@@ -26,6 +26,7 @@ class CategoryController extends Controller
     public function productShow($id) {
         $product = Product::find($id);
         $comments = Comment::where('product_id',$id)->get();
+        $product->detail = unserialize($product->detail);
             return view('products.show',compact(['product','comments']));
     }
 
